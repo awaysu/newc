@@ -8,8 +8,8 @@
 #include <unistd.h>
 
 #define APP_CCODE_FILE		"main.c"
-#define LIB_HCODE_FILE		"library.h"
-#define LIB_CCODE_FILE		"library.c"
+#define LIB_HCODE_FILE		"libtest.h"
+#define LIB_CCODE_FILE		"libtest.c"
 #define MAKEFILE_FILE		"Makefile"
 
 char *APP_CCODE=
@@ -29,17 +29,17 @@ char *LIB_HCODE=
 
 char *LIB_CCODE=
 {
-	"#include \"library.h\"\n#include \"stdio.h\"\n\nvoid ShowHelloWorld()\n{\n    printf(\"Hello World!\\n\");\n}\n"
+	"#include \"libtest.h\"\n#include \"stdio.h\"\n\nvoid ShowHelloWorld()\n{\n    printf(\"Hello World!\\n\");\n}\n"
 };
 
 char *LIB2_CCODE=
 {
-	"#include \"library.h\"\n\nint main(int argc, char *argv[])\n{\n    ShowHelloWorld();\n    return 0;\n}\n"
+	"#include \"libtest.h\"\n\nint main(int argc, char *argv[])\n{\n    ShowHelloWorld();\n    return 0;\n}\n"
 };
 
 char *LIB_MAKEFILE=
 {
-	"CC = gcc\nSRC = ./main.c\nINCLUDE = -I./\nCFLAG = -Wall\nEXEC_FILE = ./hello.out\n\nLIB = ./library.c\nLIB_CFLAG = -Wall -fPIC -shared\nLIB_NAME = ./library.so\n\nall:make_lib make_api\n\nmake_api:$(SRC)\n\t$(CC) -o $(EXEC_FILE) $(CFLAG) $(INCLUDE) $(LIB_NAME) $(SRC)\n\nmake_lib:$(LIB)\n\t$(CC) -o $(LIB_NAME) $(LIB_CFLAG) $(LIB)\nclean:\n\trm -f *.so $(EXEC_FILE)\n"
+	"CC = gcc\nSRC = ./main.c\nINCLUDE = -I./\nCFLAG = -Wall -ltest -L./\nEXEC_FILE = ./hello.out\n\nLIB = ./libtest.c\nLIB_CFLAG = -Wall -fPIC -shared\nLIB_NAME = ./libtest.so\n\nall:make_lib make_api\n\nmake_api:$(SRC)\n\t$(CC) -o $(EXEC_FILE) $(CFLAG) $(INCLUDE) $(LIB_NAME) $(SRC)\n\nmake_lib:$(LIB)\n\t$(CC) -o $(LIB_NAME) $(LIB_CFLAG) $(LIB)\nclean:\n\trm -f *.so $(EXEC_FILE)\n"
 };
 
 int save_file(char *pFolder, char *pFile, char *pBuf, unsigned int length)
@@ -85,7 +85,7 @@ void help()
 	printf("newc version 1.0, author : awaysu@gmail.com\n");
 	printf("usage : newc [-p | -l] [project name]\n");
     printf("p : program\n");
-    printf("l : library\n");
+    printf("l : libtest\n");
 	
 
 }
