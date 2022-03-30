@@ -38,7 +38,7 @@ char *LIB2_CCODE=
 
 char *LIB_MAKEFILE=
 {
-    "CC = gcc\nSRC = ./main.c\nINCLUDE = -I./\nCFLAG = -Wall -ltest -L./\nEXEC_FILE = ./hello.out\n\nLIB = ./libtest.c\nLIB_CFLAG = -Wall -fPIC -shared\nLIB_NAME = ./libtest.so\n\nall:make_lib make_api\n\nmake_api:$(SRC)\n\t$(CC) $(INCLUDE) -o $(EXEC_FILE) $(LIB_NAME) $(SRC) $(CFLAG)\n\nmake_lib:$(LIB)\n\t$(CC) -o $(LIB_NAME) $(LIB_CFLAG) $(LIB)\nclean:\n\trm -f *.so $(EXEC_FILE)\n"
+    "CC = gcc\nSRC = ./main.c\nINCLUDE = -I./\nCFLAG = -Wall -ltest -L./\nEXEC_FILE = ./hello.out\n\nLIB = ./libtest.c\nLIB_CFLAG = -Wall -fPIC -shared\nLIB_NAME = ./libtest.so\n\nall:make_lib make_api\n\nmake_api:$(SRC)\n\t@$(CC) $(INCLUDE) -o $(EXEC_FILE) $(LIB_NAME) $(SRC) $(CFLAG)\n\nmake_lib:$(LIB)\n\t@$(CC) -o $(LIB_NAME) $(LIB_CFLAG) $(LIB)\nclean:\n\trm -f *.so $(EXEC_FILE)\n"
 };
 
 int save_file(char *pFolder, char *pFile, char *pBuf, unsigned int length)
