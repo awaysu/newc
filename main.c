@@ -38,41 +38,41 @@ char *LIB2_CCODE=
 
 char *LIB_MAKEFILE=
 {
-    "CC = gcc\nSRC = ./main.c\nINCLUDE = -I./\nCFLAG = -Wall -ltest -L./\nEXEC_FILE = ./hello.out\n\nLIB = ./libtest.c\nLIB_CFLAG = -Wall -fPIC -shared\nLIB_NAME = ./libtest.so\n\nall:make_lib make_api\n\nmake_api:$(SRC)\n\t$(CC) -o $(EXEC_FILE) $(CFLAG) $(INCLUDE) $(LIB_NAME) $(SRC)\n\nmake_lib:$(LIB)\n\t$(CC) -o $(LIB_NAME) $(LIB_CFLAG) $(LIB)\nclean:\n\trm -f *.so $(EXEC_FILE)\n"
+    "CC = gcc\nSRC = ./main.c\nINCLUDE = -I./\nCFLAG = -Wall -ltest -L./\nEXEC_FILE = ./hello.out\n\nLIB = ./libtest.c\nLIB_CFLAG = -Wall -fPIC -shared\nLIB_NAME = ./libtest.so\n\nall:make_lib make_api\n\nmake_api:$(SRC)\n\t$(CC) $(INCLUDE) -o $(EXEC_FILE) $(LIB_NAME) $(SRC) $(CFLAG)\n\nmake_lib:$(LIB)\n\t$(CC) -o $(LIB_NAME) $(LIB_CFLAG) $(LIB)\nclean:\n\trm -f *.so $(EXEC_FILE)\n"
 };
 
 int save_file(char *pFolder, char *pFile, char *pBuf, unsigned int length)
 {
     int    fd = 0;
     int    retValue = -1;
-    
+
     char path[0x64];
-    
+
     memset(path, '\0', 0x64);
     sprintf(path, "%s/%s", pFolder, pFile);
-    
-    if ( (fd = open( path, 
+
+    if ( (fd = open( path,
               O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) > 0 )
     {
         if ( write(fd, pBuf, length) == length )
             retValue = 0;
-        else        
-            printf("%s write to file %s fail\n", __FUNCTION__, pFile );    
-            
+        else
+            printf("%s write to file %s fail\n", __FUNCTION__, pFile );
+
         if (fd)    close(fd);
-        sync();            
+        sync();
     }
     else
         printf("%s create %s file fail\n", __FUNCTION__, pFile);
-    
+
     return retValue;
 }
 
 void createFolder(char *f)
 {
     struct stat st = {0};
-    
-    if (stat(f, &st) == -1) 
+
+    if (stat(f, &st) == -1)
     {
         mkdir(f, 0700);
     }
@@ -85,7 +85,7 @@ void help()
     printf("usage : newc [-p | -l] [project name]\n");
     printf("p : program\n");
     printf("l : libtest\n");
-    
+
 
 }
 
@@ -95,9 +95,9 @@ int main(int argc, char *argv[])
     if (argv[1] && argv[2] )
     {
         if (strcmp(argv[1], "-p") == 0)
-        {    
+        {
             createFolder(argv[2]);
-            
+
             save_file(argv[2], APP_CCODE_FILE, APP_CCODE, strlen(APP_CCODE));
             save_file(argv[2], MAKEFILE_FILE, APP_MAKEFILE, strlen(APP_MAKEFILE));
 
@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
         else if (strcmp(argv[1], "-l") == 0)
         {
             createFolder(argv[2]);
-            
+
             save_file(argv[2], LIB_HCODE_FILE, LIB_HCODE, strlen(LIB_HCODE));
             save_file(argv[2], LIB_CCODE_FILE, LIB_CCODE, strlen(LIB_CCODE));
             save_file(argv[2], APP_CCODE_FILE, LIB2_CCODE, strlen(LIB2_CCODE));
@@ -116,7 +116,7 @@ int main(int argc, char *argv[])
     }
     else
         help();
-        
-        
+
+
     return 0;
 }
