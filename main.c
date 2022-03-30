@@ -18,7 +18,7 @@ char *APP_CCODE=
 
 char *APP_MAKEFILE=
 {
-    "CC = gcc\nINCLUDE = ./\nCFLAG = -Wall\nSRC = main.c\nEXEC_FILE = hello.out\n\nmake_api:$(SRC)\n\t$(CC) -o $(EXEC_FILE) $(CFLAG) -I$(INCLUDE) $(SRC)\nclean:\n\trm -f *.o $(EXEC_FILE)\n"
+    "CC = gcc\nINCLUDE = ./\nCFLAG = -Wall\nSRC = main.c\nEXEC_FILE = hello.out\n\nmake_api:$(SRC)\n\t@$(CC) -o $(EXEC_FILE) $(CFLAG) -I$(INCLUDE) $(SRC)\nclean:\n\trm -f *.o $(EXEC_FILE)\n"
 };
 
 char *LIB_HCODE=
